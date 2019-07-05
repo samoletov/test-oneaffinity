@@ -1,0 +1,15 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+composer.lock
+package-lock.json
+vendor
+node_modules
+
+
+# IDE - VSCode
+.vscode
+.history
+
+# System Files
+.DS_Store
+Thumbs.db

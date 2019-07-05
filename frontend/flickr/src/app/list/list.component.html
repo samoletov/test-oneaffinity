@@ -1,0 +1,26 @@
+<div class="container">
+<form #searchForm="ngForm" novalidate (ngSubmit)="tag.valid && onSubmit()">
+
+  <div class="form-group">
+    <label for="tag">Search image</label>
+    <input #tag="ngModel" required [(ngModel)]="model.tag" type="text" class="form-control" id="tag" name="tag" aria-describedby="tagHelp" placeholder="Enter some text">
+    <small id="tagHelp" class="form-text text-muted">Please enter some text to search image</small>
+    <div [hidden]="tag.valid" class="alert alert-danger">
+    Text is required
+    </div>  
+  </div>
+
+  <button type="submit" class="btn btn-success" [disabled]="!tag.valid" (click)="tag.valid && onSubmit()">Search</button>
+
+</form>
+
+<ul class="images">
+  <li *ngFor="let image of page.images | paginate: { itemsPerPage: 5, currentPage: currentPage, totalItems: page.total }">
+    <app-image [image]=image></app-image>
+  </li>
+</ul>
+
+
+<pagination-controls (pageChange)="pageChanged($event)" autoHide="true"></pagination-controls>
+
+</div>

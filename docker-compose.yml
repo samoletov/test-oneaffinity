@@ -1,0 +1,42 @@
+version: "3.3"
+
+services:
+  php-fpm:
+    depends_on:
+      - nginx_backend
+    build: docker-compose/php-fpm
+    restart: always
+    env_file:
+      ./backend/.env
+    networks:
+      - app
+    volumes:
+      - sock:/sock
+      - ./backend/app:/var/www
+  nginx_backend:
+    build:
+      context: docker-compose/nginx-backend
+    ports:
+      - "8321:80"
+    volumes:
+      - ./backend/app:/var/www:ro
+      - sock:/sock
+    networks:
+      - app
+    restart: always
+  nginx_frontend:
+    build:
+      context: docker-compose/nginx-frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/flickr/dist/flickr:/var/www:ro
+      - sock:/sock
+    networks:
+      - app
+    restart: always
+volumes:
+  sock:
+
+networks:
+  app:
